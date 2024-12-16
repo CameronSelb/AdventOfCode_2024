@@ -4,12 +4,13 @@ def check_horizontal(words : list, coords : list, current_grid : list[str], grid
             for _ in range(line.count('MAS')):
                 words.append('MAS')
                 coords.append(grid_loc[row][line.index('MAS') + 1])
-                line = line[:line.index('MAS')] + '_' + line[line.index('MAS') + 1:]
+                line = line[:line.index('MAS') + 1] + '_' + line[line.index('MAS') + 2:]
         if 'SAM' in line:
             for _ in range(line.count('SAM')):
                 words.append('SAM')
                 coords.append(grid_loc[row][line.index('SAM') + 1])
-                line = line[:line.index('SAM')] + '_' + line[line.index('SAM') + 1:]
+                line = line[:line.index('SAM') + 1] + '_' + line[line.index('SAM') + 2:]
+                
     return words, coords
 
 def move_diagonal_to_horizontal(grid_to_transfor:list[str]) -> list[str]:
@@ -97,7 +98,7 @@ grid = []
 words = []
 coords = []
 
-with open('Day_4/puzzle_Input.txt', 'r') as grid_file:
+with open('Day_4/puzzle_input.txt', 'r') as grid_file:
     for line in grid_file:
         line = line.replace('\n','')
         grid.append(line)
@@ -117,12 +118,11 @@ transformed_coords = move_diagonal_to_horizontal(transformed_coords)
 words, coords = check_horizontal(words, coords, transformed_grid, transformed_coords)
 
 used_nums = []
-print(coords)
 for i, num1 in enumerate(coords):
     for j, num2 in enumerate(coords):
         if num1 == num2 and num1 not in used_nums and i != j: 
             xmas_count += 1
             used_nums.append(num1)
             break
-
+        
 print(xmas_count)
